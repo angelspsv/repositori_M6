@@ -1,0 +1,67 @@
+body {
+    background-color: rgb(196, 239, 212);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 0;
+}
+
+#header {
+    flex: 0 0 10%; /* ocupa el 10% de altura */
+    display: flex;
+    flex-direction: column; 
+    justify-content: center; 
+    padding: 10px; 
+    background-color: rgb(196, 239, 212);
+}
+
+#titol {
+    font-size: 40px;
+    color: rgb(14, 153, 14);
+    margin-bottom: 10px; /* Espai entre el titol i altres elements */
+}
+
+#input_botons {
+    display: flex;
+    gap: 10px; /* espai entre els elements dins del header */
+}
+
+.input-style {
+    border-radius: 5px;
+    background-color: rgb(243, 246, 243);
+    cursor: pointer;
+    padding: 15px 30px; 
+    border: 1px solid #07f62b;
+    width: 400px;
+    font-size: 20px !important;
+}
+
+.button-style {
+    border-radius: 5px;
+    background-color: green;
+    color: white;
+    cursor: pointer;
+    padding: 15px 30px; 
+    font-size: 18px; 
+}
+
+.button-style:hover {
+    background-color: aquamarine;
+    color: black;
+}
+
+#resta {
+    background-color: brown;
+    flex: 1; /* ocupa el 90% de la resta */
+    display: flex;
+}
+
+#esquerra_centre {
+    flex: 0 0 70%; /* ocupa el 70% del ancho */
+    background-color: lightblue; /* per les porves */
+}
+
+#dret {
+    flex: 1; /* agafa la resta de espai (30%) */
+    background-color: lightcoral; /* per les porves */
+}
