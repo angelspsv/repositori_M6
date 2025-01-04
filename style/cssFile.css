@@ -1,10 +1,10 @@
-body {
+html, body {
     background-color: rgb(196, 239, 212);
     display: flex;
     flex-direction: column;
-    height: 100%;
-    margin: 0;
+    width: 100%; /* per ocupar el 100% de l'ample */
 }
+
 
 #header {
     flex: 0 0 10%; /* ocupa el 10% de altura */
@@ -51,17 +51,44 @@ body {
 }
 
 #resta {
-    background-color: brown;
     flex: 1; /* ocupa el 90% de la resta */
     display: flex;
 }
 
 #esquerra_centre {
-    flex: 0 0 70%; /* ocupa el 70% del ancho */
+    flex: 0 0 70%; /* ocupa el 70% del ample */
     background-color: lightblue; /* per les porves */
 }
 
 #dret {
     flex: 1; /* agafa la resta de espai (30%) */
-    background-color: lightcoral; /* per les porves */
+}
+
+#artista{
+    border-radius: 10px;
+    border: 1px solid black;
+    margin: 50px;
+    text-align: center;
+}
+
+#artista img {
+    width: 150px; /* mides del cercle */
+    height: 150px;
+    border-radius: 50%; 
+    object-fit: cover; /* per retallar be la imatge */
+    margin-bottom: 10px; 
+    margin-top: 30px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); 
+}
+
+#song_list{
+    text-align: center;
+    padding-top: 20px;
+}
+
+#song_list ul {
+    list-style-position: inside; 
+    margin-left: -40px; /* per centrar millor la llista respecte al titol */
+    display: inline-block; /* per centrar la llista dins del bloc div amb text-align */
+    text-align: left; /* per alinear els elements de la llista a l'esquerra dins del bloc centrat  */
 }
