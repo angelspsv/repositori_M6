@@ -6,6 +6,12 @@ let accessToken;
 //aqui es veuran les cançons
 const espaiCansonsData = document.getElementById('esquerra_centre');
 
+//aqui es veuran les dades de l'artista
+const espaiArtistaData = document.getElementById('artista');
+
+//aqui es veuran les tres cansons del grup
+const espaiTopTres = document.getElementById("song_list");
+
 //funcio que mostra el text entrat en el input de canço
 function cercaCansons() {
     const strCerca = inputSong.value;
@@ -204,7 +210,7 @@ function mostraInfoDeLArtista(artistData) {
     infoArtistaDiv.appendChild(seguidors);
 
     // Afegir el div al contenidor
-    document.getElementById("artista").appendChild(infoArtistaDiv);
+    espaiArtistaData.appendChild(infoArtistaDiv);
 }
 
 //Creem estructura html Top 3 cansons
@@ -234,13 +240,15 @@ function mostrarTopTracks(tracks) {
     topTracksDiv.appendChild(list);
 
     // Afegir les cançons al contenidor
-    document.getElementById("song_list").appendChild(topTracksDiv);
+    espaiTopTres.appendChild(topTracksDiv);
 }
 
-//funcio que al ser executada esborra el valor de la cerca previa
+//funcio que al ser executada esborra el valor/dades de la cerca previa en els diferents contenidors html 
 function esborrarho() {
     inputSong.value = "";
     espaiCansonsData.innerHTML = "";
+    espaiArtistaData.innerHTML = "";
+    espaiTopTres.innerHTML = "";
 }
 
 // funcio per afegir una cançó al localStorage (com una cadena separada per ;) 
