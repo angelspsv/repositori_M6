@@ -341,10 +341,13 @@ const getSpotifyAccessToken = function (clientId, clientSecret) {
             return response.json(); // Retorna la resposta com JSON
         })
         .then((data) => {
-            // Al data retorna el token d'accés que necessitarem
-            // Haurem d’habilitar els botons “Buscar” i “Borrar”
+            // Al data retorna el token d'accés que necessitarem 
             accessToken = data.access_token;
             console.log("Access token: " + accessToken);
+
+            //mabilitem els botons Buscar i Borrar quan ja tenim el token
+            btnBuscar.disabled = false;
+            btnDelete.disabled = false;
         })
         .catch((error) => {
             // SI durant el fetch hi ha hagut algun error arribarem aquí.
@@ -395,6 +398,8 @@ const btnBuscar = document.createElement('button');
 btnBuscar.textContent = 'Buscar';
 //afegir la classe 'button-style' per aplicar els estils definits en el fitxer CSS
 btnBuscar.classList.add('button-style');
+//inicialment deshabilitem el boto
+btnBuscar.disabled = true; 
 //afegim un esdeveniment al boto per fer alguna cosa quan rebi el click
 btnBuscar.addEventListener('click', cercaCansons);
 //afegim el boto al element html creat per aquest
@@ -406,6 +411,8 @@ const btnDelete = document.createElement('button');
 btnDelete.textContent = 'Borrar';
 //afegir la classe 'button-style' per aplicar els estils definits en el fitxer CSS
 btnDelete.classList.add('button-style');
+//inicialment deshabilitem el boto
+btnDelete.disabled = true;
 //afegim un esdeveniment al fer click al boto per esborrar-ho tot
 btnDelete.addEventListener('click', esborrarho);
 //afegim el boto al element html creat per aquest
