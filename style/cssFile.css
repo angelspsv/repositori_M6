@@ -5,9 +5,8 @@ html, body {
     width: 100%; /* per ocupar el 100% de l'ample */
 }
 
-
 #header {
-    flex: 0 0 10%; /* ocupa el 10% de altura */
+    flex: 0 0 10%; /* ocupa el 10% d'altura */
     display: flex;
     flex-direction: column; 
     justify-content: center; 
@@ -33,7 +32,7 @@ html, body {
     padding: 15px 30px; 
     border: 1px solid #07f62b;
     width: 400px;
-    font-size: 20px !important;
+    font-size: 20px !important; 
 }
 
 .button-style {
@@ -52,19 +51,80 @@ html, body {
 
 #resta {
     flex: 1; /* ocupa el 90% de la resta */
-    display: flex;
+    display: flex; /* habilita configuracio de flexbox */
+    width: 100%; /* per ocupar el 100% del ample disponible */
+    box-sizing: border-box; /* asegura que padding/margin no afectin les mides */
 }
 
 #esquerra_centre {
-    flex: 0 0 70%; /* ocupa el 70% del ample */
-    background-color: lightblue; /* per les porves */
+    flex: 0 0 70%; /* ocupa el 70% del espai d'ample */
+    max-width: 70%; /* per no ocupar més del 70% */
+    display: grid; /* Utilizamos Grid para organizar las canciones */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* ajusta a 3-4 cançons per espai */
+    gap: 15px; /* espai entre les cançons */
+    padding: 20px;
+    overflow-y: auto; /* permet el scroll si el contingut es extens */
 }
+
 
 #dret {
-    flex: 1; /* agafa la resta de espai (30%) */
+    flex: 0 0 30%; /* per ocupar el 30% del espai de ample */
+    max-width: 30%; /* maxim per ocupar el 30% */
+    overflow-y: auto; /* permit el scroll si el contingut es massa extens */
 }
 
-#artista{
+#espaiCansonsData {
+    display: flex;
+    flex-wrap: wrap; /* permit que las tarjetes es distribisin en fileres */
+    justify-content: space-between; /* ajusta el espai entre tarjetes */
+    gap: 20px; /* espai entre tarjetes */
+    padding: 20px;
+    box-sizing: border-box;
+    width: 100%; /* per utilitzar tot el espai del contenidor */
+    max-width: 100%; /* maxim de ample per ocupar */
+}
+
+.track-result {
+    border: 1px solid #07f62b; /* borde de color verde para las canciones */
+    border-radius: 10px; /* redondear esquinas */
+    padding: 15px; /* espacio interior en cada cancion */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* ligera sombra */
+    text-align: center; 
+}
+
+.track-result:hover {
+    background-color: #e6e6e6; /* canvia el fons al pasar el ratoli */
+    transform: scale(1.02); /* una mica de zoom */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-color: #aaa; /* canvia el color del borde */
+    cursor: pointer; /* cursor como puntero */
+}
+
+.track-image {
+    max-width: 100%; /* ajustar les imatgens al ample del contenidor */
+    border-radius: 8px; /* Bordes redondeados en las imágenes */
+    margin-bottom: 10px; /* espai entre imatge i la resta de elements del contenidor */
+}
+
+.track-name, .track-artist, .track-album, .track-id, .artist-id {
+    margin: 5px 0; /* espai entre els texts */
+}
+
+.btn-add-canso {
+    margin-top: 10px; 
+    padding: 10px 20px; 
+    background-color: #07f62b;
+    color: white; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-add-canso:hover {
+    background-color: #05c123; /* color al pasar el ratoli per sobre */
+}
+
+#artista {
     border-radius: 10px;
     border: 1px solid black;
     margin: 50px;
@@ -91,4 +151,26 @@ html, body {
     margin-left: -40px; /* per centrar millor la llista respecte al titol */
     display: inline-block; /* per centrar la llista dins del bloc div amb text-align */
     text-align: left; /* per alinear els elements de la llista a l'esquerra dins del bloc centrat  */
+}
+
+/* fem la pagina responsive: el nombre de cançons per linia canvia segons l'amplada de la web  */
+@media (max-width: 1200px) {
+    .track-result {
+        flex: 0 1 calc(33.33% - 20px); /* 3 tarjetas por línea en pantallas medianas */
+        max-width: calc(33.33% - 20px);
+    }
+}
+
+@media (max-width: 800px) {
+    .track-result {
+        flex: 0 1 calc(50% - 20px); /* 2 tarjetas por línea en pantallas pequeñas */
+        max-width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 500px) {
+    .track-result {
+        flex: 0 1 100%; /* 1 tarjeta por línea en pantallas muy pequeñas */
+        max-width: 100%;
+    }
 }
