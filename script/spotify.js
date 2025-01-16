@@ -1,5 +1,10 @@
 import { clientId, clientSecret } from "../env/client.js";
 
+//variables globals
+//const URL = "https://accounts.spotify.com/authorize";
+//const redirectUri = "http://127.0.0.1:5500/playlist.html"; 
+//const scopes = "playlist-modify-private user-library-modify playlist-modify-public";
+
 //aqui guardem el token
 let accessToken;
 
@@ -381,8 +386,13 @@ const searchSpotifyTracks = function (query, accessToken) {
 };
 
 
-//Inicialitzem en llegir el fitxer
+//funcio per quan fem click al boto playlist
+function anarPlayList() {
+    console.log('PlayList clicado');
+}
 
+
+//Inicialitzem en llegir el fitxer
 //faig el input
 const inputSong = document.createElement('input');
 inputSong.type = 'text';
@@ -417,6 +427,18 @@ btnDelete.disabled = true;
 btnDelete.addEventListener('click', esborrarho);
 //afegim el boto al element html creat per aquest
 document.getElementById('input_botons').appendChild(btnDelete);
+
+
+//fem el boto de playlist
+const btnPlaylist = document.createElement('button');
+//afegim text al boto
+btnPlaylist.textContent = 'PlayList';
+//afegir la classe 'button-style' per aplicar els estils definits en el fitxer CSS
+btnPlaylist.classList.add('button-style');
+//afegim esdeveniment al fer click al boto
+btnPlaylist.addEventListener('click', anarPlayList);
+//afegim el boto al contenidor html creat pel boto
+document.getElementById('input_botons').appendChild(btnPlaylist);
 
 
 getSpotifyAccessToken(clientId, clientSecret);
