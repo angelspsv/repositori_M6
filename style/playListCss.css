@@ -1,5 +1,58 @@
-body{
-    background-color: rgb(188, 244, 204);
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #d1f2c9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#espai_general {
+    display: flex;
+    width: 90%; 
+    margin-top: 20px;
+    gap: 10px;
+}
+
+
+#paraPlayList {
+    flex: 1; 
+    max-width: 20%; 
+    background-color: #c1eac1; 
+    border: 2px solid #4a804a; 
+    border-radius: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow: auto; /* expandeix cap a baix si hi ha mes contingut */
+}
+
+#paraCansons {
+    flex: 2; 
+    max-width: 40%;
+    background-color: #a7dba7; 
+    border: 2px solid #4a804a; 
+    border-radius: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+#paraCansosnsTriades {
+    flex: 2; 
+    max-width: 40%;
+    background-color: #8bc68b; 
+    border: 2px solid #4a804a; 
+    border-radius: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+#tornar {
+    width: 90%;
+    display: flex;
+    justify-content: start;
+    margin-top: 20px;
 }
 
 .button-style {
@@ -14,4 +67,12 @@ body{
 .button-style:hover {
     background-color: aquamarine;
     color: black;
+}
+
+p{
+    font-size: 25px;
+}
+
+#selecciona{
+    font-size: 15px;
 }
