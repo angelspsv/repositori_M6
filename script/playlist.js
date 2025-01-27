@@ -125,11 +125,16 @@ const getTracksFromPlaylist = async function (playlistId) {
             return;
         }
 
+        //mostrem per consola el objecte cançons de la playlist
+        console.log(data);
+
         //renderitzar les cançons de la playlist
         data.items.forEach(item => {
             const track = item.track;
+            //afegim la data de quan va ser afegida la canço a la playlist
+            const addedAt = item.added_at;
             const div = document.createElement('div');
-            div.textContent = `${track.name} - ${track.artists[0].name}`;
+            div.textContent = `${track.name} - ${track.artists[0].name} - ${addedAt}`;
             div.classList.add('track-item');
             container.appendChild(div);
         });
