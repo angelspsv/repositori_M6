@@ -76,3 +76,46 @@ p{
 #selecciona{
     font-size: 15px;
 }
+
+/* estils botons playlists */
+.playlist-button {
+    display: block; /* alineació vertical */
+    width: 100%; /* ocupa tot el ample del contenidor */
+    background-color: #78c878; 
+    border: 2px solid #4a804a; 
+    color: white;
+    padding: 10px 15px;
+    margin: 5px 0; /* espai entre botons */
+    font-size: 18px;
+    font-weight: bold;
+    text-align: left; 
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; 
+}
+
+.playlist-button:hover {
+    background-color: #4a804a; 
+    transform: scale(1.02); 
+    color: #ffffff; 
+}
+
+/* estils pels elements de les cançons */
+.track-item {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #b5e3b5; 
+    border: 1px solid #4a804a;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #2d572d; 
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); 
+}
+
+.track-item:hover {
+    background-color: #91d191; 
+    color: #1e421e; 
+    transform: scale(1.01); /* puja la mida */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}

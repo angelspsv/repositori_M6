@@ -71,24 +71,70 @@ const getPlayListByUser = async function () {
 
         const data = await response.json();
         const container = document.getElementById('paraPlayList');
+        container.innerHTML = "<p>Playlists</p>";
 
-        //mostrar les playlists
+        //mostrar les playlists com a botons
         data.items.forEach(playlist => {
-            const div = document.createElement('div');
-            div.textContent = playlist.name;
-            div.dataset.playlistId = playlist.id;
-            div.classList.add('playlist-item');
+            const button = document.createElement('button');
+            button.textContent = playlist.name;
+            button.dataset.playlistId = playlist.id;
+            button.classList.add('playlist-button');
+            
+            //const div = document.createElement('div');
+            //div.textContent = playlist.name;
+            //div.dataset.playlistId = playlist.id;
+            //div.classList.add('playlist-item');
 
-            div.addEventListener('click', () => {
+            button.addEventListener('click', function() {
                 //al triar una playlist
                 console.log(`Playlist seleccionada: ${playlist.name}`);
+                //agafem les cansons des de la playlist
+                getTracksFromPlaylist(playlist.id);
             });
 
-            container.appendChild(div);
+            container.appendChild(button);
         });
 
     } catch (error) {
         console.error("Error al obtener las playlists:", error);
+    }
+};
+
+//retornem les cançons de una playlist
+const getTracksFromPlaylist = async function (playlistId) {
+    const url = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+
+    try {
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        const container = document.getElementById('paraCansons');
+        container.innerHTML = "<p>Cançons</p>";
+
+        if (data.items.length === 0) {
+            container.innerHTML += "<p>No hi ha cançons en aquesta playlist.</p>";
+            return;
+        }
+
+        //renderitzar les cançons de la playlist
+        data.items.forEach(item => {
+            const track = item.track;
+            const div = document.createElement('div');
+            div.textContent = `${track.name} - ${track.artists[0].name}`;
+            div.classList.add('track-item');
+            container.appendChild(div);
+        });
+    } catch (error) {
+        console.error("Error al obtenir les tracks de la playlist:", error);
     }
 };
 
