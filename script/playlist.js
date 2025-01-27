@@ -27,6 +27,20 @@ btnReturn.addEventListener('click', tornarInici);
 document.getElementById('tornar').appendChild(btnReturn);
 
 
+//funció per esborrar una cançó des de la playlist
+function deleteSong(){
+
+    const confirmDelete = confirm('Estas segur que vols elibinar la cançó de la playlist?');
+        if(!confirmDelete){
+            //el usuari no vol esborrar la cançó
+            return;
+        }
+
+
+
+    console.log('Canço esborrada');
+}
+
 
 //obtenir dades del usuari
 const getUser = async function () { 
@@ -136,6 +150,13 @@ const getTracksFromPlaylist = async function (playlistId) {
             const div = document.createElement('div');
             div.textContent = `${track.name} - ${track.artists[0].name} - ${addedAt}`;
             div.classList.add('track-item');
+
+            //afegim el boto del dins del contenidor de cada canço
+            const btn_del = document.createElement('button');
+            btn_del.textContent = 'DEL';
+            btn_del.addEventListener('click', deleteSong);
+            div.appendChild(btn_del);
+
             container.appendChild(div);
         });
     } catch (error) {
