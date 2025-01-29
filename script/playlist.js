@@ -192,7 +192,19 @@ const getTracksFromPlaylist = async function (playlistId) {
 };
 
 
-//renderizar cançons desadas
+//afegir canço del localStorage a una playlist
+function afegirCansoPlaylist(){
+    console.log('cançó afegida');
+}
+
+
+//esborrar canço del localStorage
+function esborrarDelStorage(){
+    console.log('la cançó desada sha esborrat');
+}
+
+
+//renderizar cançons desadas al localStorage
 const renderTrackSelected = function (tracks) {
     const container = document.getElementById('paraCansosnsTriades');
     container.innerHTML = "<p>Cançons seleccionades</p>"; // netejar el contingut previ
@@ -201,6 +213,24 @@ const renderTrackSelected = function (tracks) {
         const div = document.createElement('div');
         div.textContent = `${track.name} - ${track.artists[0].name}`;
         div.classList.add('track-item');
+
+        //afegim els botons ADD i DEL
+        // ADD per afegir la canço a la playlist i 
+        // DEL per esborrar una canço des del localStorage
+        const btn_add = document.createElement('button');
+        btn_add.textContent = 'ADD';
+        //afegim esdeveniment al boto ADD
+        btn_add.addEventListener('click', afegirCansoPlaylist);
+        //afegim boto ADD al contenidor de la canço
+        div.appendChild(btn_add);
+
+        btn_del_storage = document.createElement('button');
+        btn_del_storage.textContent = 'DEL';
+        //afegim esdeveniment al boto quan rebi el click
+        btn_del_storage.addEventListener('click', esborrarDelStorage);
+        div.appendChild(btn_del_storage);
+
+        //al final, afegim el div al contenidor
         container.appendChild(div);
     });
 };
