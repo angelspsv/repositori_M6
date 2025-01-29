@@ -28,16 +28,38 @@ document.getElementById('tornar').appendChild(btnReturn);
 
 
 //funció per esborrar una cançó des de la playlist
-function deleteSong(){
+async function deleteSong(playlistId, trackUri){
+    const url = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
 
+    //confirmem abans d'esborrar la cançó
     const confirmDelete = confirm('Estas segur que vols elibinar la cançó de la playlist?');
-        if(!confirmDelete){
-            //el usuari no vol esborrar la cançó
-            return;
+    if(!confirmDelete){
+        //el usuari no vol esborrar la cançó
+        return;
+    }
+    //en el cas del sí, cridem a l'API per eliminar la cançó
+    try{
+        const response = await fetch(url, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                tracks: [{ uri: trackUri }], // La URI de la cançó a esborrar
+            }),
+        }); 
+        if (!response.ok) {
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
-
-
-
+        //esborrada la cançó tornem a carregar la llista actualitzada
+        await getTracksFromPlaylist(playlistId);
+            
+    } catch (error) {
+        console.error("Error al esborrar la cançó:", error);
+        alert("No s'ha pogut esborrar la cançó.");
+    }
+    alert("Cançó eliminada.");
     console.log('Canço esborrada');
 }
 
@@ -147,6 +169,7 @@ const getTracksFromPlaylist = async function (playlistId) {
             const track = item.track;
             //afegim la data de quan va ser afegida la canço a la playlist
             const addedAt = item.added_at;
+            //generem el div que contindra la informacio de la canço
             const div = document.createElement('div');
             div.textContent = `${track.name} - ${track.artists[0].name} - ${addedAt}`;
             div.classList.add('track-item');
@@ -154,7 +177,11 @@ const getTracksFromPlaylist = async function (playlistId) {
             //afegim el boto del dins del contenidor de cada canço
             const btn_del = document.createElement('button');
             btn_del.textContent = 'DEL';
-            btn_del.addEventListener('click', deleteSong);
+            //afegim esdeveniment al boto
+            btn_del.addEventListener('click', function (){
+                deleteSong(playlistId, track.uri);
+            });
+            //afegim el boto al contenidor de la canço (div)
             div.appendChild(btn_del);
 
             container.appendChild(div);
