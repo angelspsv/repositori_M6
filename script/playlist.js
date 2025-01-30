@@ -26,6 +26,34 @@ btnReturn.addEventListener('click', tornarInici);
 //afegim el boto al espai html creat per aquest
 document.getElementById('tornar').appendChild(btnReturn);
 
+//funcio des de spotify.js
+// funcio per eliminar una cançó del localStorage (mitjançant cadena separada per ;)
+function removeLocalStorageId(trackId) {
+    // Obtenim les cançons actuals al LocalStorage
+    let cancons = localStorage.getItem("cancons");
+    
+    // Si no hi ha cap cançó desada, no fem res
+    if (!cancons) {
+        alert("No hi ha cançons a eliminar.");
+        return;
+    }
+    
+    // Convertim la cadena en un array mitjançant la separació per ";"
+    let canconsArray = cancons.split(";");
+    
+    // Filtrar el trackId que volem eliminar
+    canconsArray = canconsArray.filter(id => id !== trackId);
+    
+    // Actualitzem el localStorage amb la nova cadena
+    if (canconsArray.length > 0) {
+        localStorage.setItem("cancons", canconsArray.join(";"));
+    } else {
+        localStorage.removeItem("cancons"); // Eliminar el localStorage si no hi ha cap ID
+    }
+
+    alert("Cançó eliminada!");
+}
+
 
 //funció per esborrar una cançó des de la playlist
 async function deleteSong(playlistId, trackUri){
@@ -199,7 +227,18 @@ function afegirCansoPlaylist(){
 
 
 //esborrar canço del localStorage
-function esborrarDelStorage(){
+function esborrarDelStorage(trackId){
+    const confirmEsborrar = confirm("Estàs segur que vols eliminar la cançó de la llista de cançons guardades?");
+    if(!confirmEsborrar){
+        //usuari no vol esborrar la cançó
+        return;
+    }
+    
+    //cridem la funcio que ja tenim des de spotify.js per esborrar del localStorage
+    removeLocalStorageId(trackId);
+    //actualitzem la llista de cançons disponibles al localstorage
+    getTrackSelected();
+
     console.log('la cançó desada sha esborrat');
 }
 
@@ -227,7 +266,9 @@ const renderTrackSelected = function (tracks) {
         btn_del_storage = document.createElement('button');
         btn_del_storage.textContent = 'DEL';
         //afegim esdeveniment al boto quan rebi el click
-        btn_del_storage.addEventListener('click', esborrarDelStorage);
+        btn_del_storage.addEventListener('click', function(){
+            esborrarDelStorage(track.id);
+        });
         div.appendChild(btn_del_storage);
 
         //al final, afegim el div al contenidor
