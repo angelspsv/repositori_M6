@@ -159,10 +159,34 @@ const getPlayListByUser = async function () {
             container.appendChild(button);
         });
 
+        //fem input per canviar el nom de una llista
+        const div = document.createElement('div');
+        const input_llista = document.createElement('input');
+        input_llista.type = 'text';
+        input_llista.placeholder = 'Entra nou nom llista';
+        div.appendChild(input_llista);
+        //container.appendChild(div);
+
+        //fem el boto SAVE per canviar el nom de una llista
+        const btn_save = document.createElement('button');
+        btn_save.textContent = 'Save';
+        //afegim un esdeveniment al boto
+        btn_save.addEventListener('click', desarNouNomLlista);
+        //afegim el boto al contenidor del input i despres al container
+        div.appendChild(btn_save);
+        container.appendChild(div);
+
     } catch (error) {
         console.error("Error al obtener las playlists:", error);
     }
 };
+
+
+//funcio per canviar el nom de una playlist
+function desarNouNomLlista(){
+    console.log('Llista canviada');
+} 
+
 
 //retornem les cançons de una playlist
 const getTracksFromPlaylist = async function (playlistId) {
