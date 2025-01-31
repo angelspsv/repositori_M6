@@ -3,10 +3,10 @@ const accessToken = window.location.href.split("access_token=")[1];
 const API_URL_SEVERAL_TRACKS = "https://api.spotify.com/v1/tracks";
 const API_URL_USER_PLAYLISTS = "https://api.spotify.com/v1/users";
 
-//A la pàgina de la playlist defi nir una variable global per guardar el token
+//definim variables global per guardar el token i el ID de llista
 let token = accessToken;
 let idUser = "";
-
+let selectedPlayList = "";
 
 //funcio per retornar el usuari a la pagina de inici
 function tornarInici(){
@@ -51,7 +51,7 @@ function removeLocalStorageId(trackId) {
         localStorage.removeItem("cancons"); // Eliminar el localStorage si no hi ha cap ID
     }
 
-    alert("Cançó eliminada!");
+    alert("Cançó eliminada del LocalStorage!");
 }
 
 
@@ -150,6 +150,8 @@ const getPlayListByUser = async function () {
             //div.classList.add('playlist-item');
 
             button.addEventListener('click', function() {
+                //assignem el id de llista
+                selectedPlayList = playlist.id;
                 //al triar una playlist
                 console.log(`Playlist seleccionada: ${playlist.name}`);
                 //agafem les cansons des de la playlist
@@ -245,8 +247,62 @@ const getTracksFromPlaylist = async function (playlistId) {
 
 
 //afegir canço del localStorage a una playlist
-function afegirCansoPlaylist(){
-    console.log('cançó afegida');
+async function afegirCansoPlaylist(entrada){
+    //obtenim la canço associada al boto ADD al rebre el click
+    const trackId = entrada.target.closest('.track-item').dataset.trackId;
+    //si no hi ha cap llista seleccionada: avis 
+    if (!selectedPlayList) {
+        alert('Has de seleccionar una playlist');
+        return;
+    }
+    //demanem confirmacio al usuari
+    const confirmAdd = confirm('Vols afegir aquesta cançó a la playlist?');
+    if (!confirmAdd) {
+        return;
+    }
+
+    //construim la url de la canço
+    const trackUri = `spotify:track:${trackId}`;
+    
+    const url = `https://api.spotify.com/v1/playlists/${selectedPlayList}/tracks`;
+
+    //per les proves
+    console.log(`ID de la playlist seleccionada:${selectedPlayList}`);
+    console.log(`ID de la cançó a afegir: ${trackId}`);
+
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                uris: [trackUri], //afegim la canço a la playlist
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+
+        //un cop afegida, eliminem la canço del localStorage
+        removeLocalStorageId(trackId);
+
+        //actualitzem la llista de cançons del localstorage
+        getTrackSelected();
+
+        //actualitzem la llista de cançons a la playlist
+        await getTracksFromPlaylist(selectedPlayList);
+
+        alert("Cançó afegida a la playlist!");
+
+    } catch (error) {
+        console.error("Error en afegir la cançó a la playlist:", error);
+        alert("No s'ha pogut afegir la cançó a la playlist.");
+    }
+
+    //console.log('cançó afegida');
 }
 
 
@@ -276,6 +332,9 @@ const renderTrackSelected = function (tracks) {
         const div = document.createElement('div');
         div.textContent = `${track.name} - ${track.artists[0].name}`;
         div.classList.add('track-item');
+
+        //afegim el trackId com a atribut al div
+        div.dataset.trackId = track.id;
 
         //afegim els botons ADD i DEL
         // ADD per afegir la canço a la playlist i 
