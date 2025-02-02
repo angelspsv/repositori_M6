@@ -173,7 +173,9 @@ const getPlayListByUser = async function () {
         const btn_save = document.createElement('button');
         btn_save.textContent = 'Save';
         //afegim un esdeveniment al boto
-        btn_save.addEventListener('click', desarNouNomLlista);
+        btn_save.addEventListener('click', function (){
+            desarNouNomLlista();
+        });
         //afegim el boto al contenidor del input i despres al container
         div.appendChild(btn_save);
         container.appendChild(div);
@@ -185,7 +187,53 @@ const getPlayListByUser = async function () {
 
 
 //funcio per canviar el nom de una playlist
-function desarNouNomLlista(){
+async function desarNouNomLlista(){
+    //avisem si no hi ha cap llista seleccionada
+    if (!selectedPlayList) {
+        alert("Selecciona una playlist abans de canviar el nom.");
+        return;
+    }
+    //agafem el nou nom de llista des del input
+    const nouNom = document.querySelector('input[type="text"]').value.trim();
+    //mirem si el input esta buit o no
+    if (!nouNom) {
+        alert("El nom de la playlist no pot estar buit.");
+        return;
+    }
+    //demanem confirmacio a l'usuari de si realment vol canviar el nom de la llista
+    const confirmacio = confirm("Estàs segur que vols modificar el nom de la playlist?");
+    if (!confirmacio) {
+        return;
+    }
+    //preparem url per fetch 
+    const url = `https://api.spotify.com/v1/playlists/${selectedPlayList}`;
+    
+    try {
+        const response = await fetch(url, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: nouNom
+            }),
+        });
+        //missatge d'error si hi ha un problema amb el paquet de la consulta
+        if (!response.ok) {
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+        //avisem que el nom s'ha canviat amb exit
+        alert("El nom de la playlist s'ha actualitzat correctament.");
+        console.log(`Playlist actualitzada: ${nouNom}`);
+
+        //tornem a carregar les playlists per reflectir el nou nom
+        await getPlayListByUser();
+
+    } catch (error) {
+        console.error("Error al actualitzar el nom de la playlist:", error);
+        alert("No s'ha pogut actualitzar el nom de la playlist.");
+    }
     console.log('Llista canviada');
 } 
 
