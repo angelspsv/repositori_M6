@@ -7,6 +7,7 @@ const API_URL_USER_PLAYLISTS = "https://api.spotify.com/v1/users";
 let token = accessToken;
 let idUser = "";
 let selectedPlayList = "";
+let input_llista;
 
 //funcio per retornar el usuari a la pagina de inici
 function tornarInici(){
@@ -154,6 +155,10 @@ const getPlayListByUser = async function () {
                 selectedPlayList = playlist.id;
                 //al triar una playlist
                 console.log(`Playlist seleccionada: ${playlist.name}`);
+
+                //fem que en el input aparegui el nom de la playlist seleccionada
+                input_llista.value = playlist.name;
+
                 //agafem les cansons des de la playlist
                 getTracksFromPlaylist(playlist.id);
             });
@@ -163,7 +168,7 @@ const getPlayListByUser = async function () {
 
         //fem input per canviar el nom de una llista
         const div = document.createElement('div');
-        const input_llista = document.createElement('input');
+        input_llista = document.createElement('input');
         input_llista.type = 'text';
         input_llista.placeholder = 'Entra nou nom llista';
         div.appendChild(input_llista);
